@@ -38,10 +38,15 @@ jobs:
         with:
           repository: pvsfair/argocd
 
-      - uses: imranismail/setup-kustomize@v2
+      - name: setup kustomize
+        uses: imranismail/setup-kustomize@v2
 
-      - run: |
-          kustomize edit set image pvsfair/home-library:${{ env.BUILD_TAG }}
+      - name: Set image tag
+        run: kustomize edit set image pvsfair/home-library:${{ env.BUILD_TAG }}
+        working-directory: apps/${{env.APP_NAME}}/overlays/dev
+
+      - name: Commit changes
+        run: |
           git config user.email "gitops@pvsfair.com"
           git config user.name "gitops"
           git add .
