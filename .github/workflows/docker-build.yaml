@@ -43,7 +43,7 @@ jobs:
 
       - name: Set image tag
         run: kustomize edit set image pvsfair/home-library:${{ env.BUILD_TAG }}
-        working-directory: apps/${{env.APP_NAME}}/overlays/dev
+        working-directory: home-library
 
       - name: Commit changes
         run: |
