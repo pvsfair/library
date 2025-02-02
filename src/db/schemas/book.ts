@@ -30,8 +30,16 @@ export const books = pgTable("Book", {
   summary: text("summary"),
 });
 
-export const bookRelations = relations(books, ({ many }) => ({
+export const bookRelations = relations(books, ({ many, one }) => ({
   loans: many(loans),
   booksAuthors: many(booksAuthors),
   booksLanguages: many(booksLanguages),
+  genre: one(genres, {
+    fields: [books.genreId],
+    references: [genres.id],
+  }),
+  publisher: one(publishers, {
+    fields: [books.publisherId],
+    references: [publishers.id],
+  }),
 }));
