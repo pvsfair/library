@@ -28,3 +28,23 @@ jobs:
           tags: |
             pvsfair/home-library:${{ steps.date.outputs.BUILD_TAG }}
             pvsfair/home-library:latest
+  deploy:
+    runs-on: ubuntu-latest
+    needs:
+      - docker_build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: pvsfair/argocd
+
+      - uses: imranismail/setup-kustomize@v2
+
+      - run: |
+          kustomize edit set image pvsfair/home-library:${{ env.BUILD_TAG }}
+          git config user.email "gitops@pvsfair.com"
+          git config user.name "gitops"
+          git add .
+          git commit -am "Set `home-library` image tag to `${{ env.BUILD_TAG }}`"
+          git pull --rebase
+          git push
