@@ -1,0 +1,34 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=S3cret
+      - POSTGRES_USER=user
+      - POSTGRES_DB=library_db
+      - POSTGRES_HOST_AUTH_METHOD=trust
+  # mongo:
+  #   image: mongo
+  #   restart: always
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: root
+  #     MONGO_INITDB_ROOT_PASSWORD: password
+  #   ports:
+  #     - 27017:27017
+
+  # mongo-express:
+  #   image: mongo-express
+  #   restart: always
+  #   ports:
+  #     - 8081:8081
+  #   environment:
+  #     ME_CONFIG_MONGODB_ADMINUSERNAME: root
+  #     ME_CONFIG_MONGODB_ADMINPASSWORD: password
+  #     ME_CONFIG_MONGODB_URL: mongodb://root:password@mongo:27017/
+  #     ME_CONFIG_BASICAUTH: false
